@@ -120,10 +120,33 @@ source ~/Repos/znap/znap.zsh  # Start Znap
 znap source marlonrichert/zsh-autocomplete
 
 # Configure zsh-autocomplete
-zstyle ':autocomplete:tab:*' widget-style menu-select
-zstyle ':autocomplete:*' min-input 2
-bindkey '\t' menu-select "$terminfo[kcbt]" menu-select
-bindkey -M menuselect '\t' menu-complete "$terminfo[kcbt]" reverse-menu-complete
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':autocomplete:tab:*' completion select
+zstyle ':autocomplete:tab:*' insert-unambiguous yes
+zstyle ':autocomplete:*' min-input 1
+
+# History completion settings
+zstyle ':completion:history-words:*' menu yes
+zstyle ':completion:history-words:*' remove-all-dups yes
+zstyle ':completion:history-words:*' sort yes
+
+# Color settings for completions
+zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
+zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:history-lines:*' list-colors "=(#b)*(#)*=0=01;34"
+
+# Keybindings for completion
+bindkey '^I' menu-select
+bindkey -M menuselect '^I' menu-complete
+bindkey -M menuselect '^[[Z' reverse-menu-complete
+
+# Up arrow for history search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 znap source marlonrichert/zsh-edit
 

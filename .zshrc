@@ -165,6 +165,29 @@ toggle_autocompletion() {
 }
 zle -N toggle_autocompletion
 bindkey '^X^T' toggle_autocompletion  # Ctrl+X followed by Ctrl+T to toggle
+
+# Keybindings for history navigation and completion
+bindkey '^[[A' up-line-or-history       # Up arrow
+bindkey '^[[B' down-line-or-history     # Down arrow
+bindkey '^P' up-line-or-search          # Ctrl+P for searching backwards
+bindkey '^N' down-line-or-search        # Ctrl+N for searching forwards
+bindkey '^R' history-incremental-search-backward  # Ctrl+R for reverse history search
+bindkey '^S' history-incremental-search-forward   # Ctrl+S for forward history search
+bindkey '^I' expand-or-complete-or-list  # Tab for completion
+
+# Function to browse recent history (keep this from the previous update)
+browse_recent_history() {
+    local lines=${1:-100}
+    local selected_command
+    selected_command=$(fc -l -n -r -$lines | fzf --tac --no-sort --prompt="Select command: ")
+    if [[ -n $selected_command ]]; then
+        print -z $selected_command
+    fi
+}
+
+# Alias for quick access to recent history browser
+alias rh='browse_recent_history'
+
 znap source marlonrichert/zsh-edit
 
 #znap source marlonrichert/zsh-hist

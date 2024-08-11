@@ -126,54 +126,19 @@ zstyle ':autocomplete:tab:*' completion select
 zstyle ':autocomplete:tab:*' insert-unambiguous yes
 zstyle ':autocomplete:*' min-input 1
 
-# History completion settings
-zstyle ':completion:history-words:*' menu yes
-zstyle ':completion:history-words:*' remove-all-dups yes
-zstyle ':completion:history-words:*' sort yes
+# Enable menu-select
+zmodload zsh/complist
 
-# Color settings for completions
-zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
-zstyle ':completion:*:*:*:*:corrections' format '%F{yellow}!- %d (errors: %e) -!%f'
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:history-lines:*' list-colors "=(#b)*(#)*=0=01;34"
-
-# Keybindings for completion and history
-autoload -U history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-
-bindkey '^[[A' history-beginning-search-backward-end  # Up arrow
-bindkey '^[[B' history-beginning-search-forward-end   # Down arrow
-bindkey '^I' expand-or-complete-or-list               # Tab for completion
-
-# Function to toggle between history search and autocompletion
-autocompletion_enabled=true
-toggle_autocompletion() {
-    if $autocompletion_enabled; then
-        bindkey '^[[A' history-beginning-search-backward-end
-        bindkey '^[[B' history-beginning-search-forward-end
-        autocompletion_enabled=false
-        echo "Switched to history search mode"
-    else
-        bindkey '^[[A' up-line-or-history
-        bindkey '^[[B' down-line-or-history
-        autocompletion_enabled=true
-        echo "Switched to autocompletion mode"
-    fi
-}
-zle -N toggle_autocompletion
-bindkey '^X^T' toggle_autocompletion  # Ctrl+X followed by Ctrl+T to toggle
-
-# Keybindings for history navigation and completion
+# Keybindings for completion and history navigation
+bindkey -M menuselect '^M' .accept-line # Enter to accept the current selection
+bindkey -M menuselect '^[[Z' reverse-menu-complete # Shift+Tab to go backwards
+bindkey '^I' menu-complete # Tab to cycle forward through options
 bindkey '^[[A' up-line-or-history       # Up arrow
 bindkey '^[[B' down-line-or-history     # Down arrow
 bindkey '^P' up-line-or-search          # Ctrl+P for searching backwards
 bindkey '^N' down-line-or-search        # Ctrl+N for searching forwards
 bindkey '^R' history-incremental-search-backward  # Ctrl+R for reverse history search
 bindkey '^S' history-incremental-search-forward   # Ctrl+S for forward history search
-bindkey '^I' expand-or-complete-or-list  # Tab for completion
 
 # Function to browse recent history (keep this from the previous update)
 browse_recent_history() {
@@ -186,9 +151,7 @@ browse_recent_history() {
 }
 
 # Alias for quick access to recent history browser
-alias rh='browse_recent_history'
-
-znap source marlonrichert/zsh-edit
+alias rh='browse_recent_history'znap source marlonrichert/zsh-edit
 
 #znap source marlonrichert/zsh-hist
 #bindkey '^[q' push-line-or-edit

@@ -151,7 +151,9 @@ browse_recent_history() {
 }
 
 # Alias for quick access to recent history browser
-alias rh='browse_recent_history'znap source marlonrichert/zsh-edit
+alias rh='browse_recent_history'
+
+znap source marlonrichert/zsh-edit
 
 #znap source marlonrichert/zsh-hist
 #bindkey '^[q' push-line-or-edit

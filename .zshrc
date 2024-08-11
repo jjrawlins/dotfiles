@@ -139,15 +139,32 @@ zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:history-lines:*' list-colors "=(#b)*(#)*=0=01;34"
 
-# Keybindings for completion
-bindkey '^I' menu-select
-bindkey -M menuselect '^I' menu-complete
-bindkey -M menuselect '^[[Z' reverse-menu-complete
+# Keybindings for completion and history
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
 
-# Up arrow for history search
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
+bindkey '^[[A' history-beginning-search-backward-end  # Up arrow
+bindkey '^[[B' history-beginning-search-forward-end   # Down arrow
+bindkey '^I' expand-or-complete-or-list               # Tab for completion
 
+# Function to toggle between history search and autocompletion
+autocompletion_enabled=true
+toggle_autocompletion() {
+    if $autocompletion_enabled; then
+        bindkey '^[[A' history-beginning-search-backward-end
+        bindkey '^[[B' history-beginning-search-forward-end
+        autocompletion_enabled=false
+        echo "Switched to history search mode"
+    else
+        bindkey '^[[A' up-line-or-history
+        bindkey '^[[B' down-line-or-history
+        autocompletion_enabled=true
+        echo "Switched to autocompletion mode"
+    fi
+}
+zle -N toggle_autocompletion
+bindkey '^X^T' toggle_autocompletion  # Ctrl+X followed by Ctrl+T to toggle
 znap source marlonrichert/zsh-edit
 
 #znap source marlonrichert/zsh-hist

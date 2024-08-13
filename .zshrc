@@ -140,18 +140,17 @@ bindkey '^N' down-line-or-search        # Ctrl+N for searching forwards
 bindkey '^R' history-incremental-search-backward  # Ctrl+R for reverse history search
 bindkey '^S' history-incremental-search-forward   # Ctrl+S for forward history search
 
-# Function to browse recent history (keep this from the previous update)
-browse_recent_history() {
-    local lines=${1:-100}
+# Function to browse full command history
+browse_history() {
     local selected_command
-    selected_command=$(fc -l -n -r -$lines | fzf --tac --no-sort --prompt="Select command: ")
+    selected_command=$(fc -l 1 | fzf --tac --no-sort --prompt="Select command: " | sed 's/^ *[0-9]* *//')
     if [[ -n $selected_command ]]; then
         print -z $selected_command
     fi
 }
 
-# Alias for quick access to recent history browser
-alias rh='browse_recent_history'
+# Alias for quick access to history browser
+alias bh='browse_history'
 
 znap source marlonrichert/zsh-edit
 
@@ -168,6 +167,20 @@ znap source zsh-users/zsh-syntax-highlighting
 ### EXPORTS ###
 export AWS_PAGER=""
 
+
+### HISTORY SETTINGS ###
+HISTFILE=~/.zsh_history
+
+# Number of commands to save in memory and file
+HISTSIZE=100000
+SAVEHIST=100000
+
+# Options for history management
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+
 ### ALIASES ###
 alias pj="npx projen"
 alias lg="lazygit"
@@ -176,6 +189,8 @@ alias crd='/usr/local/bin/connect-redshift'
 alias cpg='/usr/local/bin/connect-postgres'
 alias kd='git mergetool'
 alias k3='kdiff3'
+alias pgstart='brew services start postgresql@15'
+alias pgstop='brew services stop postgresql@15'
 
 ### LANGUAGES
 export GOPATH=$HOME/go
@@ -201,7 +216,9 @@ if [ -f '/Users/jjrawlins/.local/share/google-cloud-sdk/path.zsh.inc' ]; then . 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/jjrawlins/.local/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jjrawlins/.local/share/google-cloud-sdk/completion.zsh.inc'; fi
 
-
-
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+### Custom Flags ###
+export LDFLAGS="-L/opt/homebrew/opt/postgresql@15/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/postgresql@15/include"

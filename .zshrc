@@ -211,6 +211,7 @@ alias kd='git mergetool'
 alias k3='kdiff3'
 alias pgstart='brew services start postgresql@15'
 alias pgstop='brew services stop postgresql@15'
+alias create-repo='gh repo create'
 
 ### LANGUAGES
 export GOPATH=$HOME/go

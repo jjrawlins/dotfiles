@@ -212,6 +212,8 @@ alias k3='kdiff3'
 alias pgstart='brew services start postgresql@15'
 alias pgstop='brew services stop postgresql@15'
 alias create-repo='gh repo create'
+# New alias for interactive directory listing
+# alias fls='ls -la | fzf --multi --preview "ls -l {}" | awk "{print \$NF}"'
 
 ### LANGUAGES
 export GOPATH=$HOME/go
@@ -243,3 +245,10 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 ### Custom Flags ###
 export LDFLAGS="-L/opt/homebrew/opt/postgresql@15/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/postgresql@15/include"
+
+# Refined interactive directory navigation function
+fcd() {
+  local dir
+  dir=$(ls -ap | grep '/$' | fzf --preview 'ls -la {}' --prompt 'Select directory > ' --height 40% --layout reverse --border) &&
+  cd "$dir"
+}

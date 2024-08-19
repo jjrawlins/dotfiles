@@ -25,6 +25,14 @@ end
 -- These are the default config settins needed to use Wezterm
 -- Just add this and return config and that's all the basics you need
 
+-- How many lines of scrollback you want to retain per tab
+config.scrollback_lines = 3500
+-- Enable the scrollbar.
+-- It will occupy the right window padding space.
+-- If right padding is set to 0 then it will be increased
+-- to a single cell width
+config.enable_scroll_bar = true
+
 -- Color scheme, Wezterm has 100s of them you can see here:
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 config.color_scheme = "Oceanic Next (Gogh)"
@@ -141,6 +149,12 @@ config.keys = {
 		mods = "CTRL|SHIFT",
 		action = act.CopyTo("Clipboard"),
 	},
+	-- Add this new key binding for search functionality
+	{
+		key = "f",
+		mods = "CTRL|SHIFT",
+		action = act.Search("CurrentSelectionOrEmptyString"),
+	},
 }
 config.mouse_bindings = mouse_bindings
 
@@ -175,16 +189,16 @@ config.foreground_text_hsb = {
 }
 
 -- This is used to set an image as my background
--- config.background = {
--- 	{
--- 		source = {
--- 			File = { path = home_dir .. "/Documents/WezTerm/black.jpg" },
--- 		},
--- 		opacity = 3,
--- 		width = "100%",
--- 		hsb = { brightness = 0.25 },
--- 	},
--- }
+config.background = {
+	{
+		source = {
+			File = { path = home_dir .. "/Documents/WezTerm/black.jpg" },
+		},
+		opacity = 3,
+		width = "100%",
+		hsb = { brightness = 0.25 },
+	},
+}
 
 function tab_title(tab_info)
 	local title = tab_info.tab_title

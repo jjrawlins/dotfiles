@@ -45,10 +45,10 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -107,7 +107,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 # Download Znap, if it's not there yet.
@@ -120,45 +119,44 @@ source ~/Repos/znap/znap.zsh  # Start Znap
 znap source marlonrichert/zsh-autocomplete
 
 # Configure zsh-autocomplete
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-zstyle ':autocomplete:tab:*' completion select
-zstyle ':autocomplete:tab:*' insert-unambiguous yes
-zstyle ':autocomplete:*' min-input 1
+# zstyle ':completion:*' menu select
+# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+# zstyle ':autocomplete:tab:*' completion select
+# zstyle ':autocomplete:tab:*' insert-unambiguous yes
+# zstyle ':autocomplete:*' min-input 1
 
 # Enhanced tab completion settings
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=2
+# zstyle ':completion:*' auto-description 'specify: %d'
+# zstyle ':completion:*' completer _expand _complete _correct _approximate
+# zstyle ':completion:*' format 'Completing %d'
+# zstyle ':completion:*' group-name ''
+# zstyle ':completion:*' menu select=2
 
 # macOS-compatible colorized completions
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
-
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+# zstyle ':completion:*' use-compctl false
+# zstyle ':completion:*' verbose true
+# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+# zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Enable menu-select
 zmodload zsh/complist
 
 # Keybindings for completion and history navigation
-bindkey -M menuselect '^M' .accept-line # Enter to accept the current selection
-bindkey -M menuselect '^[[Z' reverse-menu-complete # Shift+Tab to go backwards
-bindkey '^I' menu-complete # Tab to cycle forward through options
-bindkey '^[[A' up-line-or-history       # Up arrow
-bindkey '^[[B' down-line-or-history     # Down arrow
-bindkey '^P' up-line-or-search          # Ctrl+P for searching backwards
-bindkey '^N' down-line-or-search        # Ctrl+N for searching forwards
-bindkey '^R' history-incremental-search-backward  # Ctrl+R for reverse history search
-bindkey '^S' history-incremental-search-forward   # Ctrl+S for forward history search
+# bindkey -M menuselect '^M' .accept-line # Enter to accept the current selection
+# bindkey -M menuselect '^[[Z' reverse-menu-complete # Shift+Tab to go backwards
+# bindkey '^I' menu-complete # Tab to cycle forward through options
+# bindkey '^[[A' up-line-or-history       # Up arrow
+# bindkey '^[[B' down-line-or-history     # Down arrow
+# bindkey '^P' up-line-or-search          # Ctrl+P for searching backwards
+# bindkey '^N' down-line-or-search        # Ctrl+N for searching forwards
+# bindkey '^R' history-incremental-search-backward  # Ctrl+R for reverse history search
+# bindkey '^S' history-incremental-search-forward   # Ctrl+S for forward history search
 
 # Function to browse full command history
 browse_history() {
@@ -252,3 +250,8 @@ fcd() {
   dir=$(ls -ap | grep '/$' | fzf --preview 'ls -la {}' --prompt 'Select directory > ' --height 40% --layout reverse --border) &&
   cd "$dir"
 }
+
+
+### Bindkeys Overrides ###
+bindkey              '^I'         menu-complete
+bindkey "$terminfo[kcbt]" reverse-menu-complete

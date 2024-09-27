@@ -189,31 +189,48 @@ config.foreground_text_hsb = {
 }
 
 -- This is used to set an image as my background
-config.background = {
-	{
-		source = {
-			File = { path = home_dir .. "/Documents/WezTerm/black.jpg" },
-		},
-		opacity = 3,
-		width = "100%",
-		hsb = { brightness = 0.25 },
-	},
-}
+-- config.background = {
+-- 	{
+-- 		source = {
+-- 			File = { path = home_dir .. "/Documents/WezTerm/black.jpg" },
+-- 		},
+-- 		opacity = 3,
+-- 		width = "100%",
+-- 		hsb = { brightness = 0.25 },
+-- 	},
+-- }
+
+-- function tab_title(tab_info)
+-- 	local title = tab_info.tab_title
+
+-- 	-- if the tab title is explicitly set, take that
+
+-- 	if title and #title > 0 then
+-- 		return title
+-- 	end
+
+-- 	-- Otherwise, use the title from the active pane
+
+-- 	-- in that tab
+
+-- 	return tab_info.active_pane.title
+-- end
 
 function tab_title(tab_info)
 	local title = tab_info.tab_title
 
-	-- if the tab title is explicitly set, take that
+	-- First, check if there's a title set by the terminal
+	if tab_info.active_pane.title and #tab_info.active_pane.title > 0 then
+		return tab_info.active_pane.title
+	end
 
+	-- If not, use the tab title if explicitly set
 	if title and #title > 0 then
 		return title
 	end
 
-	-- Otherwise, use the title from the active pane
-
-	-- in that tab
-
-	return tab_info.active_pane.title
+	-- Otherwise, use a default title or the process name
+	return tab_info.active_pane.foreground_process_name
 end
 
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)

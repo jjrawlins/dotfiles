@@ -119,44 +119,43 @@ source ~/Repos/znap/znap.zsh  # Start Znap
 znap source marlonrichert/zsh-autocomplete
 
 # Configure zsh-autocomplete
-# zstyle ':completion:*' menu select
-# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# zstyle ':autocomplete:tab:*' completion select
-# zstyle ':autocomplete:tab:*' insert-unambiguous yes
-# zstyle ':autocomplete:*' min-input 1
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':autocomplete:tab:*' completion select
+zstyle ':autocomplete:tab:*' insert-unambiguous yes
+zstyle ':autocomplete:*' min-input 2
 
 # Enhanced tab completion settings
-# zstyle ':completion:*' auto-description 'specify: %d'
-# zstyle ':completion:*' completer _expand _complete _correct _approximate
-# zstyle ':completion:*' format 'Completing %d'
-# zstyle ':completion:*' group-name ''
-# zstyle ':completion:*' menu select=2
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
 
 # macOS-compatible colorized completions
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
+LISTMAX=0
 
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-# zstyle ':completion:*' use-compctl false
-# zstyle ':completion:*' verbose true
-# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-# zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
 
 # Enable menu-select
 zmodload zsh/complist
 
 # Keybindings for completion and history navigation
-# bindkey -M menuselect '^M' .accept-line # Enter to accept the current selection
-# bindkey -M menuselect '^[[Z' reverse-menu-complete # Shift+Tab to go backwards
-# bindkey '^I' menu-complete # Tab to cycle forward through options
-# bindkey '^[[A' up-line-or-history       # Up arrow
-# bindkey '^[[B' down-line-or-history     # Down arrow
-# bindkey '^P' up-line-or-search          # Ctrl+P for searching backwards
-# bindkey '^N' down-line-or-search        # Ctrl+N for searching forwards
-# bindkey '^R' history-incremental-search-backward  # Ctrl+R for reverse history search
-# bindkey '^S' history-incremental-search-forward   # Ctrl+S for forward history search
+bindkey -M menuselect '^M' .accept-line # Enter to accept the current selection
+bindkey -M menuselect '^[[Z' reverse-menu-complete # Shift+Tab to go backwards
+bindkey '^I' menu-complete # Tab to cycle forward through options
+bindkey '^[[A' up-line-or-history       # Up arrow
+bindkey '^[[B' down-line-or-history     # Down arrow
+bindkey '^P' up-line-or-search          # Ctrl+P for searching backwards
+bindkey '^N' down-line-or-search        # Ctrl+N for searching forwards
+bindkey '^R' history-incremental-search-backward  # Ctrl+R for reverse history search
+bindkey '^S' history-incremental-search-forward   # Ctrl+S for forward history search
 
 # Function to browse full command history
 browse_history() {
@@ -170,7 +169,7 @@ browse_history() {
 # Alias for quick access to history browser
 alias bh='browse_history'
 
-znap source marlonrichert/zsh-edit
+#znap source marlonrichert/zsh-edit
 
 #znap source marlonrichert/zsh-hist
 #bindkey '^[q' push-line-or-edit
@@ -210,6 +209,12 @@ alias k3='kdiff3'
 alias pgstart='brew services start postgresql@15'
 alias pgstop='brew services stop postgresql@15'
 alias create-repo='gh repo create'
+alias ws='open -a /Applications/WebStorm.app'
+alias rr='open -a /Applications/RustRover.app'
+alias pc='open -a /Applications/PyCharm.app'
+alias gl='open -a /Applications/GoLand.app'
+alias dg='open -a /Applications/DataGrip.app'
+alias ij='open -a /Applications/IntelliJ\ IDEA.app'
 # New alias for interactive directory listing
 # alias fls='ls -la | fzf --multi --preview "ls -l {}" | awk "{print \$NF}"'
 
@@ -226,6 +231,7 @@ export PATH=$PATH:/Users/jjrawlins/.cargo/bin
 export PATH=$PATH:/Applications/love.app/Contents/MacOS
 export PATH=$PATH:/opt/homebrew/opt/postgresql@15/bin
 export PATH=$PATH:/Applications/kdiff3.app/Contents/MacOS/
+export PATH=$PATH:/Users/jjrawlins/.local/bin
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/jjrawlins/.rd/bin:$PATH"
@@ -255,3 +261,7 @@ fcd() {
 ### Bindkeys Overrides ###
 bindkey              '^I'         menu-complete
 bindkey "$terminfo[kcbt]" reverse-menu-complete
+
+
+### SETUP PROMPT FOR WEZTERM ###
+precmd() { print -Pn "\e]0;%~\a" }

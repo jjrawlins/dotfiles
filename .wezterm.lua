@@ -216,36 +216,36 @@ config.foreground_text_hsb = {
 -- 	return tab_info.active_pane.title
 -- end
 
-function tab_title(tab_info)
-	local title = tab_info.tab_title
-
-	-- First, check if there's a title set by the terminal
-	if tab_info.active_pane.title and #tab_info.active_pane.title > 0 then
-		return tab_info.active_pane.title
-	end
-
-	-- If not, use the tab title if explicitly set
-	if title and #title > 0 then
-		return title
-	end
-
-	-- Otherwise, use a default title or the process name
-	return tab_info.active_pane.foreground_process_name
-end
-
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local title = tab_title(tab)
-
-	if tab.is_active then
-		return {
-
-			{ Background = { Color = "blue" } },
-
-			{ Text = " " .. title .. " " },
-		}
-	end
-
-	return title
-end)
+--function tab_title(tab_info)
+--	local title = tab_info.tab_title
+--
+--	-- First, check if there's a title set by the terminal
+--	if tab_info.active_pane.title and #tab_info.active_pane.title > 0 then
+--		return tab_info.active_pane.title
+--	end
+--
+--	-- If not, use the tab title if explicitly set
+--	if title and #title > 0 then
+--		return title
+--	end
+--
+--	-- Otherwise, use a default title or the process name
+--	return tab_info.active_pane.foreground_process_name
+--end
+--
+--wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+--	local title = tab_title(tab)
+--
+--	if tab.is_active then
+--		return {
+--
+--			{ Background = { Color = "blue" } },
+--
+--			{ Text = " " .. title .. " " },
+--		}
+--	end
+--
+--	return title
+--end)
 
 return config

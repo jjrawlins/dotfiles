@@ -113,8 +113,13 @@ config.keys = {
 		action = wezterm.action({ CloseCurrentTab = { confirm = true } }),
 	},
 	{
+		key = "c",
+		mods = "CMD",
+		action = act.CopyTo("Clipboard"),
+	},
+	{
 		key = "v",
-		mods = "CTRL|SHIFT",
+		mods = "CMD",
 		action = act.PasteFrom("Clipboard"),
 	},
 	-- Switch to the next tab
@@ -144,17 +149,14 @@ config.keys = {
 		mods = "CTRL",
 		action = wezterm.action.ResetFontSize,
 	},
-	{
-		key = "c",
-		mods = "CTRL|SHIFT",
-		action = act.CopyTo("Clipboard"),
-	},
 	-- Add this new key binding for search functionality
 	{
 		key = "f",
 		mods = "CTRL|SHIFT",
 		action = act.Search("CurrentSelectionOrEmptyString"),
 	},
+	{ key = "LeftArrow",  mods = "ALT", action = act.SendKey{ key = "b", mods = "ALT" } },
+	{ key = "RightArrow", mods = "ALT", action = act.SendKey{ key = "f", mods = "ALT" } },
 }
 config.mouse_bindings = mouse_bindings
 

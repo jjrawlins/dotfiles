@@ -35,7 +35,7 @@ config.enable_scroll_bar = true
 
 -- Color scheme, Wezterm has 100s of them you can see here:
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
-config.color_scheme = "Oceanic Next (Gogh)"
+config.color_scheme = 'Github (Gogh)'
 -- This is my chosen font, we will get into installing fonts on windows later
 config.font = wezterm.font("Hack Nerd Font")
 config.font_size = 15
@@ -249,5 +249,7 @@ config.foreground_text_hsb = {
 --
 --	return title
 --end)
+
+
 
 return config
